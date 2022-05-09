@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Booking Info{% endblock title %}
+
+{% block content %}
+
+<h3 style="text-align: center">Booking Summary</h3>
+
+<div class="card">
+  <h5 class="card-header d-flex">
+      Booking Details
+  <span class="ml-auto"> ID : {{ booking }} </span>
+  </h5>
+
+  <div class="card-body text-center">
+    <h5 class="card-title">Your booking is confirmed !</h5>
+    <p class="card-text">Thanks for Booking with us
+    </p>
+      <p class="card-text" style="color: red"> you will soon receive an email confirmation with payment information</p>
+      <div class="row">
+        <p class="col-md-2" style="text-align: right">UserName : {{ user.username }}</p>
+        <p class="col-md-3" style="text-align: right">Email : {{ user.email }}</p>
+      </div>
+  </div>
+</div>
+    <br>
+    <div class="card text-center">
+  <h5 class="card-header">
+    Trip Details
+  </h5>
+  <div class="card-body">
+      <div id="tableWrap" class="tableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="sticky">Tour Number</th>
+          <th class="sticky">Tour Agency</th>
+          <th class="sticky">Leaving From</th>
+          <th class="sticky">Going To</th>
+          <th class="sticky">Tour Date</th>
+          <th class="sticky">Description</th>
+            <th class="sticky">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tour in tour_list %}
+        <tr>
+          <td>{{ tour.tour_number }} </td>
+          <td>{{ tour.tour_name}}</td>
+          <td>{{tour.leaving_from }}</td>
+          <td>{{ tour.going_to}}</td>
+          <td>{{ tour.tour_date }}</td>
+        <td>
+                {{ tour.description }}
+          </td>
+            <td>{{ tour.price }}</td>
+        </tr>
+        {% endfor %}
+      <tr>
+         <td>
+             Total Price
+         </td>
+         <td> {{ total_price }}</td>
+         </tr>
+      </tbody>
+    </table>
+  </div>
+
+      </div>
+  </div>
+</div>
+    <br>
+    <div class="card text-center">
+  <h5 class="card-header">
+    Additional Details About your upcoming trip!
+  </h5>
+  <div class="card-body">
+      <div class="row">
+          <div class="box col-md-2">
+    <article class="media">
+        <div class="media-left">
+            <figure class="image is-50x50">
+                <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+            </figure>
+        </div>
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <span class="title">{{ weather.city }}</span>
+                    <br>
+                    <span class="subtitle">{{ weather.temperature }}° F</span>
+                    <br>
+                    <span class="subtitle">{{ weather.pressure }}</span>
+                    <br> {{ weather.description }}
+                </p>
+            </div>
+        </div>
+    </article>
+</div>
+          <div class="col-md-3">
+
+          </div>
+
+      </div>
+  </div>
+</div>
+
+
+{% endblock %}
+</html>

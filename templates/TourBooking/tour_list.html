@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% load humanize %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<style>
+        body {
+            background-color: beige;
+        }
+</style>
+
+
+
+<div class="container">
+    <div align="center" class="">
+        {% if user.is_superuser %}
+            <br><br>
+            <h2 class="display-7">Admin UI</h2>
+
+        {% elif user.is_authenticated %}
+            <div class="jumbotron client-width" style="padding: 2rem 2rem; margin: auto;">
+            <form action="{% url 'make_reservation'%}" method="post">{% csrf_token %}
+                <h1 class="display-4" style="width: 400px; display: inline-block;"> Tours </h1>
+  <div id="tableWrap" class="tableWrap">
+    <table>
+      <thead>
+        <tr>
+            <th class="sticky"></th>
+          <th class="sticky">Tour Number</th>
+          <th class="sticky">Tour Agency</th>
+          <th class="sticky">Leaving From</th>
+          <th class="sticky">Going To</th>
+          <th class="sticky">Tour Date</th>
+          <th class="sticky">Description</th>
+          <th class="sticky">USD Price</th>
+          <th class="sticky">EUR Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tour in tlist %}
+        <tr>
+          <td><input type="checkbox" name="toursSelected" id="selected" class="check" value="{{tour.id}}"/></td>
+          <td>{{ tour.tour_number }} </td>
+          <td>{{ tour.tour_name}}</td>
+          <td>{{tour.leaving_from }}</td>
+          <td>{{ tour.going_to}}</td>
+          <td>{{ tour.tour_date }}</td>
+        <td>
+
+                {{ tour.description }}
+          </td>
+            <td>{{ tour.price }}</td>
+          <td>{{ tour.price |mul:eur_rate|floatformat:2|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+            <br>
+            <button class="btn btn-success btn-lg" type="submit">Book Now</button>
+            </form>
+            </div>
+
+        {% endif %}
+    </div>
+    </div>
+{% endblock content %}
+
+</html>

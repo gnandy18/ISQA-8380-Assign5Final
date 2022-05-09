@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Bookings{% endblock title %}
+
+{% block content %}
+
+<h3 style="text-align: center">Bookings</h3>
+
+    <div id="accordion">
+    {% for booking in bookings %}
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ booking.booking_id }}" aria-expanded="true" aria-controls="collapseOne">
+          {{ booking.booking_id }} - {{ booking.booking_total_price }}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapse{{ booking.booking_id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <table>
+        <tr>
+            <th class="sticky">Tour Number</th>
+          <th class="sticky">Tour Agency</th>
+          <th class="sticky">Leaving From</th>
+          <th class="sticky">Going To</th>
+          <th class="sticky">Tour Date</th>
+          <th class="sticky">Price</th>
+
+            </tr>
+        {% for item in booking_items %}
+            {% if item.booking_id.booking_id == booking.booking_id %}
+            <tr>
+            <td>{{ item.tour_id.tour_number }}</td>
+          <td>{{ item.tour_id.tour_name}}</td>
+          <td>{{item.tour_id.leaving_from }}</td>
+          <td>{{ item.tour_id.going_to}}</td>
+          <td>{{ item.tour_id.tour_date }}</td>
+            <td>{{ item.tour_id.price }}</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+
+
+
+
+{% endblock %}
+</html>

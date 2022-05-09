@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<style>
+        body {
+            background-color: beige;
+        }
+    </style>
+<div class="container">
+    <div align="center" class="bg-info text-light">
+        {% if user.is_superuser %}
+            <br><br>
+            {% include "TourBooking/all_tour_list.html" %}
+
+        {% elif user.is_authenticated %}
+            <section class="hero spad set-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="hero__text">
+                        <h4>Experience the greatest for your holidays.</h4>
+                    </div>
+                    <form action={% url 'tour_list' %} class="filter__form" method="GET">
+                        {% csrf_token %}
+                            <div class="filter__form__item filter__form__item--select">
+                            <p>Leaving From</p>
+                            <div class="filter__form__select">
+                                <span class="icon_search"></span>
+                                {{ form.leaving_from }}
+                            </div>
+                        </div>
+                        <div class="filter__form__item filter__form__item--select">
+                            <p>Going To</p>
+                            <div class="filter__form__select">
+                                <span class="icon_search"></span>
+                               {{ form.going_to }}
+                            </div>
+                        </div>
+                        <div class="filter__form__item">
+                            <p>Tour Date</p>
+                            <div class="filter__form__datepicker">
+                                <span class="icon_calendar"></span>
+                                <div style="padding-left: 38px;">
+                                {{ form.tour_date }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter__form__item">
+                            <p>No of days</p>
+                            <div class="filter__form__datepicker">
+                                <span class="icon_calendar"></span>
+                                <div style="padding-left: 38px;">
+                                {{ form.no_days }}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+        {% else %}
+            <div>
+                <br><br>
+                <!--h1 class="display-4">UNO Food Pantry/h1-->
+                <img class="img-fluid" align="center" height="350" width="400" src="{% static "images/pic2.PNG" %}"
+                     alt="Logo text2"/>
+                <div><p class="bg-warning text-black">Please <a href="{% url 'signup' %}"><b>register</b></a> or <a
+                        href="{% url 'login' %}"><b>login</b></a> to request items.</p></div>
+            <p class="p-4" align="left">
+ChooseYourTrip is a licensed travel agent and tour operator based out of Omaha, Nebraska. Our team of local travel experts plan and design amazing holidays for visitors traveling to United States.
+
+Choose from our carefully designed tour packages or get in touch with us to start planning and designing your own trip.
+                <a class="text-light" href="mailto:unofpinfo@gmail.com">chooseyourtrip@gmail.com</a>.
+            </p>
+            </div>
+        {% endif %}
+        <div><br></div>
+    </div>
+    </div>
+{% endblock content %}
+
+</html>

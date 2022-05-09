@@ -1,0 +1,87 @@
+<!doctype html>
+{% extends 'base.html' %}
+<html lang="en">
+{% load static %}
+{% load mathfilters %}
+{% load humanize %}
+{% block title %}tour_list{% endblock title %}
+
+{% block content %}
+<style>
+        body {
+            background-color: beige;
+        }
+</style>
+
+
+
+<div class="container">
+
+    <div align="center" class="">
+    <div class="jumbotron client-width" style="padding: 2rem 2rem; margin: auto;">
+        {% if user.is_authenticated %}
+
+            <form action="" method="post">{% csrf_token %}
+                <h1 class="display-4" style="width: 400px; display: inline-block;"> Tours </h1>
+  <div id="tableWrap" class="tableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="sticky">Tour Number</th>
+          <th class="sticky">Tour Agency</th>
+          <th class="sticky">Leaving From</th>
+          <th class="sticky">Going To</th>
+          <th class="sticky">Tour Date</th>
+          <th class="sticky">Description</th>
+          <th class="sticky">Price</th>
+            {% if user.is_superuser %}
+          <th class="sticky">Actions</th>
+            <th class="sticky"></th>
+                {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for tour in tour_list %}
+        <tr>
+          <td>{{ tour.tour_number }} </td>
+          <td>{{ tour.tour_name}}</td>
+          <td>{{tour.leaving_from }}</td>
+          <td>{{ tour.going_to}}</td>
+          <td>{{ tour.tour_date }}</td>
+        <td>
+
+                {{ tour.description }}
+          </td>
+            <td>{{ tour.price }}</td>
+            {% if user.is_superuser %}
+          <td><a href="{% url 'tour_edit' pk=tour.pk %}" class="btn btn-warning">Edit</a>
+                    <td><a href="{% url 'tour_delete' pk=tour.pk %}"
+                           onclick="return confirm('Are you sure you want to delete?')"
+                           class="btn btn-danger">Delete</a>
+                    </td>
+        {% endif %}
+
+                </tr>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+            <br>
+
+            </form>
+
+        {% endif %}
+    {% if user.is_superuser %}
+
+    <div class="row" style="padding-left: 30px">
+        <a href="{% url 'tour_new' %}" class="row"><span
+                class="btn btn-primary">Add New Tour</span></a>
+        </div>
+    {% endif %}
+    </div>
+    </div>
+    </div>
+{% endblock content %}
+
+</html>
